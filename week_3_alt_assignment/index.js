@@ -28,9 +28,11 @@
 
 const app = require("./stuffThatYouCanIgnore"); // take my word for it :)
 
-app.get("/", (_, res) => res.send(`
+app.get("/", (_, res) =>
+  res.send(`
   <h1>Hi!</h1><a href="/whatisaserver">Visit /whatisaserver to get started!</a>
-`));
+`)
+);
 
 /**
  * Visit `http://localhost:3000/whatisaserver` to run this function and see
@@ -198,7 +200,6 @@ app.get("/whatisaserver/dynamicHtml", (request, response) => {
       // present, which will typically happen after the user clicks the link
       // above
       Object.keys(request.query).length !== 0
-
         ? `
 
 
@@ -309,12 +310,12 @@ app.get("/whatisaserver/dynamicHtml/extra", (request, response) => {
 });
 
 app.get("/whatisaserver/json", (_, response) => {
-                                // ^ It is not a bad idea to use an underscore
-                                // to displace positional arguments that you
-                                // don't need. I don't need `request`, so I
-                                // just put an _. This is not very beautiful,
-                                // but sometimes developers do this if they
-                                // have no other choice!
+  // ^ It is not a bad idea to use an underscore
+  // to displace positional arguments that you
+  // don't need. I don't need `request`, so I
+  // just put an _. This is not very beautiful,
+  // but sometimes developers do this if they
+  // have no other choice!
   response.contentType("application/json").send(`
     {
       "Oh!": "and don't get stressed about JSON!",
