@@ -1,54 +1,58 @@
 const express = require("express");
 const app = express();
 
-const { products } = require("./data");
+const logger = require("./logger.js");
+const cookieParser = require("cookie-parser");
+
+const peopleRouter = require("./routes/people.js");
+const productsRouter = require("./routes/products.js");
+const queryRouter = require("./routes/query.js");
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
 
 app.use(express.static("./public"));
 
+app.use(logger);
+
+function auth(req, res, next) {
+  if (!req.cookies.name) {
+    res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+  req.user = req.cookies.name;
+  next();
+}
+
+app.post("/logon", (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ success: false, message: "Unauthorized" });
+  }
+  res
+    .cookie("name", req.body.name)
+    .status(201)
+    .json({ success: true, message: `Hello, ${name}` });
+});
+
+app.delete("/logoff", (req, res) => {
+  res
+    .clearCookie("name")
+    .status(200)
+    .json({ message: "The user is logged off." });
+});
+
+app.get("/test", (req, res) => {
+  app.use(auth);
+  return res.status(200).json({ message: `Welcome ${req.user}` });
+});
+
+app.use("/api/v1/people", peopleRouter);
+app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/query", queryRouter);
+
 app.get("/api/v1/test", (req, res) => {
   res.json({ message: "It worked!" });
-});
-
-app.get("/api/v1/products", (req, res) => {
-  res.json(products);
-});
-
-app.get("/api/v1/products/:productID", (req, res) => {
-  const { productID } = req.params;
-  const idToFind = parseInt(productID);
-  const product = products.find((p) => p.id === idToFind);
-  if (!product) {
-    return res.status(404).json({ message: "That product was not found." });
-  }
-  return res.json(product);
-});
-
-app.get("/api/v1/query", (req, res) => {
-  const { search, limit, price, feature } = req.query;
-  let sortedProducts = [...products];
-
-  if (search) {
-    sortedProducts = sortedProducts.filter((product) => {
-      return product.name.startsWith(search);
-    });
-  }
-  if (price) {
-    sortedProducts = sortedProducts.filter((product) => {
-      return product.price <= price;
-    });
-  }
-  if (feature) {
-    sortedProducts = sortedProducts.filter((product) => {
-      return product.desc.includes(feature);
-    });
-  }
-  if (limit) {
-    sortedProducts = sortedProducts.slice(0, Number(limit));
-  }
-  if (sortedProducts.length < 1) {
-    return res.status(200).json({ success: true, data: [] });
-  }
-  res.status(200).json(sortedProducts);
 });
 
 app.all("*", (req, res) => {
