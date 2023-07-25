@@ -14,8 +14,7 @@
 // data types. Structures with multiple elements are sometimes called
 // "collections"
 
-const stuff = [1, 2, 'fish', { id: 3 }];
-
+const stuff = [1, 2, "fish", { id: 3 }];
 
 //////////////////////////////
 ///// What is a method? /////
@@ -31,20 +30,20 @@ const stuff = [1, 2, 'fish', { id: 3 }];
 const object = {
   // in OO, we group data and behavior
   data: 1,
-  behavior: function() {
+  behavior: function () {
     // "this" is a reference to the object we are inside of right now
     this.data++;
-    console.log('OOP demo:', this.data);
-  }
-}
+    console.log("OOP demo:", this.data);
+  },
+};
 
 // Every time we call `.behavior()`, the data (number) inside `object` is
 // incremented by 1, so we print "OOP demo 1", "OOP demo 2", etc.
-object.behavior()
-object.behavior()
-object.behavior()
-object.behavior()
-object.behavior()
+object.behavior();
+object.behavior();
+object.behavior();
+object.behavior();
+object.behavior();
 
 // That's why we call them "array methods" they are methods that exist on the
 // "Array" object.
@@ -61,61 +60,70 @@ object.behavior()
 //   - The callback should return a boolean. If the return value is true, the
 //     element becomes a member of the new array. If the return value is false,
 //     the element is filtered (removed).
-   const integers = [1, 2, 3, 4, 5];
-   // evenNumbers will be interger % 2 for each integer
-   const evenNumbers = integers.filter((integer) => {
-     return integer % 2 === 0
-   })
+const integers = [1, 2, 3, 4, 5];
+// evenNumbers will be interger % 2 for each integer
+const evenNumbers = integers.filter((integer) => {
+  return integer % 2 === 0;
+});
 
 // - Array.prototype.map
 //   - The callback recieves each item of the array. The return value is pushed
 //     into a new array
-   const numbers = [1, 2, 3];
-   const doubles = numbers.map((i) => i * 2);
+const numbers = [1, 2, 3];
+const doubles = numbers.map((i) => i * 2);
 
 // - Array.prototype.forEach
 //   - `forEach` is like a "for" loop. It calls the callback for every item in
 //     the array
-   evenNumbers.forEach((thingy) => console.log('even', thingy));
-   doubles.forEach((d) => console.log('doubled!', d));
+evenNumbers.forEach((thingy) => console.log("even", thingy));
+doubles.forEach((d) => console.log("doubled!", d));
 
 // - Array.prototype.reduce
 //   - A bit tricky
 //   - Can transform an array into an atribrary result
-  const lastNames = ['Smith', 'Toure', 'Hernandez']
-  const initialValue = 0;
-  const totalLettersInNames = lastNames.reduce((runningTotal, currentName) => {
-    return runningTotal + currentName.length;
-  }, initialValue)
-  console.log({totalLettersInNames});
+const lastNames = ["Smith", "Toure", "Hernandez"];
+const initialValue = 0;
+const totalLettersInNames = lastNames.reduce((runningTotal, currentName) => {
+  return runningTotal + currentName.length;
+}, initialValue);
+console.log({ totalLettersInNames });
 
-  // The first argument is always the return value that we're building up.
-  // I called it, "runningTotal" before. The default name is "accumulator."
-  // Often, Array.prototype.reduce is used to build a mapping from an array,
-  // like this:
-  const people = [{id: 1, name: 'tim'}, {id: 2, name: 'jane'}];
-  const peopleIdMap = people.reduce((map, person) => {
+// The first argument is always the return value that we're building up.
+// I called it, "runningTotal" before. The default name is "accumulator."
+// Often, Array.prototype.reduce is used to build a mapping from an array,
+// like this:
+const people = [
+  { id: 1, name: "tim" },
+  { id: 2, name: "jane" },
+];
+const peopleIdMap = people.reduce(
+  (map, person) => {
     map[person.id] = person;
     return map;
-  }, {} /* second arg is always the initial value! Here, it's an empty object */);
+  },
+  {} /* second arg is always the initial value! Here, it's an empty object */
+);
 
-  // Now we can lookup people by id!
-  console.log({lookedUpPerson1: peopleIdMap[1]})
-  console.log({lookedUpPerson2: peopleIdMap[2]});
+// Now we can lookup people by id!
+console.log({ lookedUpPerson1: peopleIdMap[1] });
+console.log({ lookedUpPerson2: peopleIdMap[2] });
 
-  // Sometimes, you'll see this fancy syntax used with reduce, especially when
-  // building mappings. Beware, though, there's a lot of unnecessary runtime
-  // overhead here, because we create a new object here every time instead of
-  // re-using the old one!! And it's only a few characters shorter than the
-  // more performant solution above.
-  const peopleNameMap = people.reduce((map, person) => ({
+// Sometimes, you'll see this fancy syntax used with reduce, especially when
+// building mappings. Beware, though, there's a lot of unnecessary runtime
+// overhead here, because we create a new object here every time instead of
+// re-using the old one!! And it's only a few characters shorter than the
+// more performant solution above.
+const peopleNameMap = people.reduce(
+  (map, person) => ({
     ...map,
-    [person.name]: person
-  }), {});
+    [person.name]: person,
+  }),
+  {}
+);
 
-  // Now we can lookup people by name!
-  console.log({lookupTim: peopleNameMap['tim']})
-  console.log({lookupJane: peopleNameMap['jane']});
+// Now we can lookup people by name!
+console.log({ lookupTim: peopleNameMap["tim"] });
+console.log({ lookupJane: peopleNameMap["jane"] });
 
 /////////////////////////// CHALLENGES ////////////////////////////////////////
 
@@ -147,12 +155,57 @@ object.behavior()
 // changes to this file with your MR for week 3.
 
 const names = [
-  'Dimitry SantiAgo',
-  'Carlos d. Perez',
-  'tam  person',
-  'Mariana Gomez',
-  'Amy You'
+  "Dimitry SantiAgo",
+  "Carlos d. Perez",
+  "tam  person",
+  "Mariana Gomez",
+  "Amy You",
 ];
+
+// New array with each person's last name
+const lastNamesOnly = names.map((name) =>
+  name.slice(name.lastIndexOf(" ") + 1)
+);
+console.log(`These are the last names: ${lastNamesOnly}`);
+
+// Only names with format <first> + <last>
+const firstAndLastOnly = names.filter((name) => {
+  return /^\w+ \w+$/.test(name);
+});
+console.log(`First and last only: ${firstAndLastOnly}`);
+
+// Names converted to Title Case
+const titleCase = names.map((name) => {
+  let namesArray = name.split(" ");
+  namesArray.forEach((name, index) => {
+    namesArray[index] =
+      name.charAt(0).toUpperCase() + name.substring(1).toLowerCase();
+  });
+  return namesArray.join(" ");
+});
+console.log(`Names with Title Case: ${titleCase}`);
+
+// Removed wrong format, change to Title Case, remove last names ending in Z, and add greeting message
+const lastChallenge = names
+  // Filter out names with wrong format
+  .filter((name) => /^\w+ \w+$/.test(name))
+  // Change each name to Title Case
+  .map((name) => {
+    let namesArray = name.split(" ");
+    namesArray.forEach((name, index) => {
+      namesArray[index] =
+        name.charAt(0).toUpperCase() + name.substring(1).toLowerCase();
+    });
+    return namesArray.join(" ");
+  })
+  // Filter out last names ending in z
+  .filter((name) => name.charAt(name.length - 1) !== "z")
+  // Add greeting message
+  .map((name) => {
+    return `You're a wizard, ${name}`;
+  });
+
+console.log(`This is the last challenge: ${lastChallenge}`);
 
 ///////////////////////////////////////////////////////////////////////////////
 //// put your answers above if you wish to do the challenges on your own //////
@@ -172,12 +225,12 @@ const names = [
 //////// CHALLENGE: Get everyone's last name
 const everyonesLastName = names.map((name) => {
   // `.map` can transform each element 1:1
-  const eachWordSeparated = name.split(" ")
+  const eachWordSeparated = name.split(" ");
   // how to get the last index from JS array
   const lastName = eachWordSeparated.pop();
   return lastName;
 });
-console.log('everyone last name', everyonesLastName);
+console.log("everyone last name", everyonesLastName);
 
 //////// CHALLENGE: Filter to the people who followed the right
 // "right format" is "<first name> <last name>" with a single space!
@@ -185,9 +238,8 @@ const rightFormat = /^\w+ \w+$/;
 const matchesTeachersPedanticFormattingRule = names.filter((name) => {
   return name.match(rightFormat);
 });
-console.log('good students', matchesTeachersPedanticFormattingRule)
+console.log("good students", matchesTeachersPedanticFormattingRule);
 // (joke :)
-
 
 //////// CHALLENGE: Change everyone's name to "Title Case"
 // (Each Word Uppercase)
@@ -200,22 +252,20 @@ console.log('good students', matchesTeachersPedanticFormattingRule)
 
 const titledNames = names.map((name) => {
   // `.map` can transform each element 1:1
-  const eachWordSeparated = name.split(" ")
+  const eachWordSeparated = name.split(" ");
 
   const titledName = eachWordSeparated.map((inputWord) => {
     const inputLetters = inputWord.split("");
     const wordWithFirstLetterUppercase = inputLetters
-      .map((letter, idx) => (
-        idx === 0
-          ? letter.toUpperCase()
-          : letter.toLowerCase()
-      ))
-      .join("")
-    return wordWithFirstLetterUppercase
+      .map((letter, idx) =>
+        idx === 0 ? letter.toUpperCase() : letter.toLowerCase()
+      )
+      .join("");
+    return wordWithFirstLetterUppercase;
   });
-  return titledName.join(" ")
+  return titledName.join(" ");
 });
-console.log('titledNames', titledNames);
+console.log("titledNames", titledNames);
 
 // Same example as above (change every name to title case), but I'll break it
 // up into smaller pieces to make it more readable. Each callback function
@@ -237,12 +287,12 @@ const transformWordIntoTitle = (characterInWord, indexOfCharacter) => {
   if (indexOfCharacter === 0) {
     return characterInWord.toUpperCase();
   } // we have returned!! The rest of the code will ONLY run for characters
-    // after the first one
+  // after the first one
 
   // We could skip `.toLowerCase`, but if a letter in the middle of the word
   // is uPpErcAse, it'll look nicer if we transform it into lowercase
   return characterInWord.toLowerCase();
-}
+};
 
 /**
  * This is the callback used when we are mapping over an array of "words," like:
@@ -270,10 +320,10 @@ const transformWordIntoTitle = (characterInWord, indexOfCharacter) => {
  * is to learn, not to go fast!
  */
 const transformStringIntoTitledWords = (wordInString) => {
-  const letters = wordInString.split('');
+  const letters = wordInString.split("");
   const titleCaseLetters = letters.map(transformWordIntoTitle);
-  return titleCaseLetters.join('');
-}
+  return titleCaseLetters.join("");
+};
 
 /**
  * Finally, the highest level: this callback operates on every string in our
@@ -292,15 +342,11 @@ const transformNameIntoTitleCase = (name) => {
   // This is good because it'll work for our name "tam  person" where there is
   // a double-space
   const nameWords = name.split(/ +/);
-  const titleCaseWords = nameWords.map(transformStringIntoTitledWords)
-  return titleCaseWords.join(' ');
-}
+  const titleCaseWords = nameWords.map(transformStringIntoTitledWords);
+  return titleCaseWords.join(" ");
+};
 
-console.log(
-  'titledNames verbose',
-  names.map(transformNameIntoTitleCase)
-)
-
+console.log("titledNames verbose", names.map(transformNameIntoTitleCase));
 
 //////// CHALLENGE: Remove names with the wrong format
 //                  AND change it to "Title Case"
@@ -314,12 +360,14 @@ const result = names
   // remove names that end in "z"
   .filter((name) => {
     const lastLetter = name.slice(-1);
-    return lastLetter.toLowerCase() !== 'z'
+    return lastLetter.toLowerCase() !== "z";
   })
   // transform into a sign-up message
-  .map((name) => `
+  .map(
+    (name) => `
     Hey there ${name}!
     Want to buy my thing?
-  `);
+  `
+  );
 
-console.log('result', result);
+console.log("result", result);
